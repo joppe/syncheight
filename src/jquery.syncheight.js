@@ -21,11 +21,18 @@
      * @returns {{getHeight: Function, setHeight: Function, getTop: Function}}
      */
     createElement = function ($el) {
-        var originalHeight = $el.outerHeight();
+        var style = $el.get(0).style;
 
         return {
             getHeight: function () {
-                return originalHeight;
+                var height = style.height,
+                    realHeight;
+
+                style.height = 'auto';
+                realHeight = $el.outerHeight();
+                style.height = height;
+
+                return realHeight;
             },
 
             setHeight: function (height) {
@@ -72,8 +79,7 @@
                 return createElement($(el));
             }),
             container;
-        console.log('createContainer');
-        console.log($elements);
+
         container = {
             rearrange: function () {
                 var top = null,
